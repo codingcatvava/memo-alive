@@ -1,0 +1,4 @@
+streamlit==1.50.0
+httpx==0.28.1
+pydantic==2.13.4
+numpy==2.0.2

@@ -1,0 +1,170 @@
+:root {
+  --memo-ink: #17233a;
+  --memo-muted: #64748b;
+  --memo-blue: #335cff;
+  --memo-blue-soft: #edf1ff;
+  --memo-cream: #fbfaf6;
+  --memo-border: #e4e8ef;
+  --memo-success: #16845b;
+  --memo-warning: #b5680d;
+}
+
+.stApp {
+  background:
+    radial-gradient(circle at 12% -10%, rgba(104, 133, 255, 0.15), transparent 30rem),
+    linear-gradient(180deg, #ffffff 0%, var(--memo-cream) 100%);
+  color: var(--memo-ink);
+}
+
+.block-container {
+  max-width: 980px;
+  padding-top: 1.6rem;
+  padding-bottom: 5rem;
+}
+
+.memo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.memo-brand {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.memo-brand span {
+  color: var(--memo-blue);
+}
+
+.memo-mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.72rem;
+  border-radius: 999px;
+  background: var(--memo-blue-soft);
+  color: #2442bd;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.memo-mode::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.memo-hero {
+  padding: 1.3rem 0 0.7rem;
+}
+
+.memo-hero h1 {
+  margin: 0;
+  color: var(--memo-ink);
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  letter-spacing: -0.055em;
+  line-height: 1.05;
+}
+
+.memo-hero p {
+  max-width: 680px;
+  color: var(--memo-muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.memo-card {
+  padding: 1.15rem 1.2rem;
+  border: 1px solid var(--memo-border);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 14px 40px rgba(31, 45, 78, 0.06);
+  margin-bottom: 1rem;
+}
+
+.memo-kicker {
+  color: var(--memo-blue);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.memo-status {
+  display: inline-block;
+  padding: 0.24rem 0.58rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #eef2f7;
+  color: #4b5b72;
+}
+
+.memo-status.current,
+.memo-status.active {
+  background: #e9f8f1;
+  color: var(--memo-success);
+}
+
+.memo-status.pending_approval,
+.memo-status.pending {
+  background: #fff3df;
+  color: var(--memo-warning);
+}
+
+.memo-status.rejected,
+.memo-status.rejected_from_current {
+  background: #f5e8ea;
+  color: #9f3444;
+}
+
+div[data-testid="stRadio"] > div {
+  gap: 0.35rem;
+}
+
+div[data-testid="stRadio"] label {
+  border-radius: 999px;
+}
+
+.stButton > button,
+.stFormSubmitButton > button {
+  border-radius: 12px;
+  min-height: 2.75rem;
+  font-weight: 700;
+}
+
+.stButton > button[kind="primary"],
+.stFormSubmitButton > button[kind="primary"] {
+  background: var(--memo-blue);
+  border-color: var(--memo-blue);
+}
+
+div[data-testid="stExpander"] {
+  border: 1px solid var(--memo-border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+div[data-testid="stMetric"] {
+  border: 1px solid var(--memo-border);
+  border-radius: 14px;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+@media (max-width: 640px) {
+  .block-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .memo-header {
+    align-items: flex-start;
+  }
+}

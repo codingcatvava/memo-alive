@@ -1,0 +1,27 @@
+__pycache__/
+.pytest_cache/
+.venv/
+*.py[cod]
+.DS_Store
+
+# Local credentials and private-key material
+.env
+.env.*
+!.env.example
+secrets.toml
+.streamlit/secrets.toml
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Runtime databases and uploaded recordings
+*.db
+*.sqlite
+*.sqlite3
+*.wav
+*.mp3
+*.webm
+*.ogg
+data/*
+!data/.gitkeep
