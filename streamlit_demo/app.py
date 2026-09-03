@@ -52,6 +52,12 @@ DECISION_LABELS = {
     "ai_merge": "确认 AI 融合稿",
     "later": "稍后处理",
 }
+NAV_ITEMS = (
+    ("record", "录音", ":material/fiber_manual_record:"),
+    ("history", "备忘录", ":material/description:"),
+    ("approval", "待审批", ":material/chat_bubble:"),
+    ("timeline", "时间线", ":material/history:"),
+)
 
 
 st.set_page_config(
@@ -123,6 +129,32 @@ def _render_header() -> None:
         """,
         unsafe_allow_html=True,
     )
+
+
+def _select_page(page: str) -> None:
+    st.session_state.memo_page = page
+
+
+def _render_navigation() -> str:
+    current_page = st.session_state.setdefault("memo_page", "record")
+    valid_pages = {item[0] for item in NAV_ITEMS}
+    if current_page not in valid_pages:
+        current_page = "record"
+        st.session_state.memo_page = current_page
+
+    with st.container(key="memo_navigation"):
+        columns = st.columns(len(NAV_ITEMS), gap="small")
+        for column, (page, label, icon) in zip(columns, NAV_ITEMS):
+            column.button(
+                label,
+                key=f"memo_nav_{page}",
+                icon=icon,
+                type="primary" if page == current_page else "secondary",
+                width="stretch",
+                on_click=_select_page,
+                args=(page,),
+            )
+    return current_page
 
 
 def _render_memo_result(memo: Dict[str, Any]) -> None:
@@ -428,17 +460,12 @@ def main() -> None:
     if (_secret("DEMO_STORAGE_MODE", "session") or "session").lower() != "persistent":
         st.caption("公开演示保护：数据仅属于当前浏览器会话，刷新、冷启动或重新部署后可能丢失。请勿上传敏感录音。")
 
-    page = st.radio(
-        "主导航",
-        ["🎙️ 记录", "🗂️ 备忘录", "✅ 待审批", "🕰️ 时间线"],
-        horizontal=True,
-        label_visibility="collapsed",
-    )
-    if page == "🎙️ 记录":
+    page = _render_navigation()
+    if page == "record":
         render_record_page(paths, gateway)
-    elif page == "🗂️ 备忘录":
+    elif page == "history":
         render_history_page(paths)
-    elif page == "✅ 待审批":
+    elif page == "approval":
         render_approval_page(paths)
     else:
         render_timeline_page(paths)

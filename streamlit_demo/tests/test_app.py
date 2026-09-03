@@ -14,13 +14,17 @@ def test_app_loads_all_four_pages_without_exceptions(monkeypatch) -> None:
     app.run()
     assert not app.exception
     assert len(app.get("audio_input")) == 1
-    navigation = app.radio[0]
 
-    for page in ("🗂️ 备忘录", "✅ 待审批", "🕰️ 时间线", "🎙️ 记录"):
-        navigation.set_value(page)
-        app.run()
+    pages = (
+        ("history", "备忘录"),
+        ("approval", "待审批"),
+        ("timeline", "主题时间线"),
+        ("record", "记下此刻，保留变化。"),
+    )
+    for page_key, expected_heading in pages:
+        app.button(key=f"memo_nav_{page_key}").click().run()
         assert not app.exception
-        navigation = app.radio[0]
+        assert any(expected_heading in item.value for item in app.markdown)
 
     rendered_text = "\n".join(item.value for item in app.markdown)
     assert "演示转写来源" not in rendered_text

@@ -18,7 +18,7 @@
 
 .block-container {
   max-width: 980px;
-  padding-top: 1.6rem;
+  padding-top: calc(4.75rem + env(safe-area-inset-top));
   padding-bottom: 5rem;
 }
 
@@ -27,7 +27,13 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.9rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(215, 213, 204, 0.8);
+  border-radius: 18px;
+  background: rgba(255, 253, 248, 0.88);
+  box-shadow: 0 10px 30px rgba(31, 45, 78, 0.06);
+  backdrop-filter: blur(12px);
 }
 
 .memo-brand {
@@ -124,12 +130,70 @@
   color: #9f3444;
 }
 
-div[data-testid="stRadio"] > div {
-  gap: 0.35rem;
+.st-key-memo_navigation {
+  margin: 0 0 1.15rem;
+  padding: 0.55rem;
+  border: 1px solid rgba(215, 213, 204, 0.82);
+  border-radius: 20px;
+  background: rgba(255, 253, 248, 0.9);
+  box-shadow: 0 10px 28px rgba(31, 45, 78, 0.06);
 }
 
-div[data-testid="stRadio"] label {
-  border-radius: 999px;
+.st-key-memo_navigation [data-testid="stHorizontalBlock"] {
+  gap: 0.55rem;
+}
+
+.st-key-memo_navigation [data-testid="stColumn"] {
+  min-width: 0;
+}
+
+.st-key-memo_navigation .stButton > button {
+  min-height: 4.4rem;
+  padding: 0.65rem 0.45rem;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: transparent;
+  color: #72716c;
+  box-shadow: none;
+  flex-direction: column;
+  gap: 0.22rem;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.st-key-memo_navigation .stButton > button:hover {
+  border-color: #c9d2ce;
+  background: #f5f6f1;
+  color: #143d2f;
+  transform: translateY(-1px);
+}
+
+.st-key-memo_navigation .stButton > button[kind="primary"] {
+  border-color: rgba(20, 61, 47, 0.28);
+  background: #e8eee9;
+  color: #143d2f;
+  box-shadow: 0 8px 20px rgba(20, 61, 47, 0.12);
+}
+
+.st-key-memo_navigation .stButton > button:focus-visible {
+  outline: 3px solid rgba(51, 92, 255, 0.22);
+  outline-offset: 2px;
+}
+
+.st-key-memo_navigation .stButton > button p {
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
+.st-key-memo_navigation [data-testid="stIconMaterial"] {
+  font-size: 1.65rem;
+}
+
+.st-key-memo_navigation [data-testid="stColumn"]:first-child [data-testid="stIconMaterial"] {
+  color: #d95d4f;
 }
 
 .stButton > button,
@@ -160,11 +224,32 @@ div[data-testid="stMetric"] {
 
 @media (max-width: 640px) {
   .block-container {
+    padding-top: calc(5rem + env(safe-area-inset-top));
     padding-left: 1rem;
     padding-right: 1rem;
   }
 
   .memo-header {
-    align-items: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 0.65rem;
+    padding: 0.75rem 0.85rem;
+  }
+
+  .memo-mode {
+    margin-left: auto;
+  }
+
+  .st-key-memo_navigation [data-testid="stHorizontalBlock"] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .st-key-memo_navigation [data-testid="stColumn"] {
+    width: 100% !important;
+  }
+
+  .st-key-memo_navigation .stButton > button {
+    min-height: 3.85rem;
   }
 }

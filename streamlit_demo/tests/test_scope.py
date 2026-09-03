@@ -23,7 +23,7 @@ def test_app_declares_only_the_four_requested_pages() -> None:
     app_source = (Path(__file__).resolve().parents[1] / "app.py").read_text(
         encoding="utf-8"
     )
-    for expected in ("🎙️ 记录", "🗂️ 备忘录", "✅ 待审批", "🕰️ 时间线"):
+    for expected in ("录音", "备忘录", "待审批", "时间线"):
         assert expected in app_source
 
 
