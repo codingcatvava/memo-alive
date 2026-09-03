@@ -1,0 +1,271 @@
+.record-heading {
+  text-align: center;
+}
+
+.recorder-card {
+  display: flex;
+  align-items: center;
+  min-height: 640rpx;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.record-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 156rpx;
+  height: 156rpx;
+  margin: 16rpx auto 34rpx;
+  border: 14rpx solid #f7d8cf;
+  background: #d44d38;
+  box-shadow: 0 16rpx 32rpx rgba(172, 57, 41, 0.2);
+}
+
+.record-dot {
+  width: 54rpx;
+  height: 54rpx;
+  border-radius: 999rpx;
+  background: #fff;
+}
+
+.record-button.stop {
+  width: 128rpx;
+  height: 128rpx;
+  margin-bottom: 16rpx;
+  border-width: 10rpx;
+}
+
+.stop-square {
+  width: 42rpx;
+  height: 42rpx;
+  border-radius: 8rpx;
+  background: #fff;
+}
+
+.recorder-title,
+.record-duration {
+  margin-bottom: 12rpx;
+  color: #193a2d;
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.record-duration {
+  margin: 26rpx 0;
+  font-size: 48rpx;
+  font-variant-numeric: tabular-nums;
+}
+
+.file-link {
+  width: auto;
+  margin: 28rpx auto 0;
+  padding: 0 18rpx;
+  background: transparent;
+  color: #8b6e45;
+  font-size: 25rpx;
+  text-decoration: underline;
+}
+
+.location-field {
+  width: 100%;
+  margin-top: 50rpx;
+}
+
+.waveform {
+  display: flex;
+  align-items: center;
+  height: 110rpx;
+  gap: 10rpx;
+}
+
+.wave-bar {
+  width: 8rpx;
+  border-radius: 999rpx;
+  background: #d44d38;
+  animation: pulse 0.8s ease-in-out infinite alternate;
+}
+
+.bar-0 { height: 34rpx; }
+.bar-1 { height: 82rpx; animation-delay: 0.2s; }
+.bar-2 { height: 54rpx; animation-delay: 0.35s; }
+.bar-3 { height: 96rpx; animation-delay: 0.1s; }
+
+@keyframes pulse {
+  from { transform: scaleY(0.45); opacity: 0.55; }
+  to { transform: scaleY(1); opacity: 1; }
+}
+
+.ready-card,
+.mock-card,
+.processing-card,
+.result-card,
+.failure-actions {
+  margin-top: 24rpx;
+}
+
+.ready-card .section-title,
+.mock-card .section-title,
+.processing-card .section-title {
+  display: block;
+}
+
+.file-name {
+  display: block;
+  margin-bottom: 10rpx;
+  overflow: hidden;
+  color: #394b43;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview-button {
+  margin-top: 24rpx;
+}
+
+.progress-track {
+  height: 14rpx;
+  margin: 26rpx 0 12rpx;
+  overflow: hidden;
+  border-radius: 999rpx;
+  background: #e4e7e4;
+}
+
+.progress-value {
+  height: 100%;
+  border-radius: 999rpx;
+  background: #2d6c54;
+  transition: width 0.2s;
+}
+
+.spinner {
+  width: 66rpx;
+  height: 66rpx;
+  margin: 4rpx auto 28rpx;
+  border: 8rpx solid #dfe8e3;
+  border-top-color: #246047;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.processing-card {
+  padding: 54rpx 34rpx;
+  text-align: center;
+}
+
+.stage-list {
+  display: flex;
+  margin-top: 28rpx;
+  color: #66736d;
+  flex-direction: column;
+  gap: 16rpx;
+  text-align: left;
+}
+
+.mock-copy,
+.example-text {
+  display: block;
+  color: #68716d;
+  line-height: 1.65;
+}
+
+.mock-card .runtime-pill {
+  margin-bottom: 20rpx;
+}
+
+.example-button {
+  margin-top: 28rpx;
+}
+
+.example-text {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  text-align: center;
+}
+
+.full-button,
+.permission-button {
+  width: 100%;
+  margin-top: 24rpx;
+}
+
+.result-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 22rpx;
+}
+
+.success-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58rpx;
+  height: 58rpx;
+  border-radius: 50%;
+  background: #dceade;
+  color: #17613f;
+  font-size: 32rpx;
+  font-weight: 800;
+}
+
+.result-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.result-title {
+  color: #19382d;
+  font-size: 36rpx;
+  font-weight: 700;
+}
+
+.result-summary,
+.cleaned,
+.raw-transcript {
+  color: #59665f;
+  line-height: 1.75;
+}
+
+.result-card > .badge {
+  margin-top: 20rpx;
+}
+
+.evidence-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.evidence-title-row .section-title {
+  margin: 0;
+}
+
+.raw-label {
+  display: block;
+  margin: 30rpx 0 10rpx;
+  color: #3e5149;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.raw-transcript {
+  display: block;
+  padding: 22rpx;
+  border-radius: 18rpx;
+  background: #f2f0ea;
+}
+
+.approval-button {
+  width: 100%;
+  min-height: 76rpx;
+  margin-top: 18rpx;
+  background: #fff0bf;
+  color: #74510e;
+  font-weight: 700;
+}

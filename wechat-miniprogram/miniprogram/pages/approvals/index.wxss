@@ -1,0 +1,274 @@
+.approvals-page {
+  padding-bottom: 48rpx;
+}
+
+.approval-heading-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+}
+
+.approval-heading-copy {
+  min-width: 0;
+}
+
+.back-icon-button {
+  flex: 0 0 auto;
+  width: 68rpx;
+  height: 68rpx;
+  margin: 0;
+  padding: 0;
+  border: 2rpx solid #d7d5cc;
+  border-radius: 50%;
+  background: #fffdf8;
+  color: #244b3c;
+}
+
+.back-glyph {
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+  font-size: 39rpx;
+  font-weight: 700;
+  line-height: 1;
+  transform: translateY(-2rpx);
+}
+
+.retry-button {
+  min-height: 68rpx;
+  margin-top: 24rpx;
+}
+
+.retry-button {
+  width: 180rpx;
+  margin-left: 0;
+}
+
+.message-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.message-card {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 28rpx;
+}
+
+.message-copy {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.message-title,
+.message-time {
+  display: block;
+}
+
+.message-title {
+  overflow: hidden;
+  color: #1d382d;
+  font-size: 30rpx;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.message-time {
+  color: #76807b;
+  font-size: 23rpx;
+}
+
+.message-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background: #f3bf3d;
+  color: #553a06;
+  font-size: 23rpx;
+  font-weight: 800;
+}
+
+.message-chevron {
+  color: #7d8983;
+  font-size: 48rpx;
+}
+
+.card-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26rpx;
+  margin-bottom: 18rpx;
+  color: #68736d;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.nav-button {
+  width: 70rpx;
+  height: 62rpx;
+  margin: 0;
+  padding: 0;
+  border: 2rpx solid #d4d8d4;
+  background: #fffdf8;
+  color: #214638;
+  line-height: 62rpx;
+}
+
+.nav-button[disabled] {
+  color: #b6bbb8;
+}
+
+.approval-card {
+  padding: 30rpx;
+}
+
+.approval-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.relation-chip,
+.topic-chip {
+  padding: 7rpx 16rpx;
+  border-radius: 999rpx;
+  font-size: 21rpx;
+  font-weight: 700;
+}
+
+.relation-chip {
+  background: #fff0bf;
+  color: #74510e;
+}
+
+.topic-chip {
+  background: #e8eee9;
+  color: #315949;
+}
+
+.route-title {
+  display: block;
+  margin-top: 22rpx;
+  color: #19392d;
+  font-size: 34rpx;
+  font-weight: 800;
+}
+
+.rationale {
+  margin-top: 16rpx;
+  color: #54645d;
+  font-size: 25rpx;
+  line-height: 1.65;
+}
+
+.explicit-note {
+  margin-top: 24rpx;
+  padding: 18rpx 20rpx;
+  border-radius: 16rpx;
+  background: #f3f6f3;
+  color: #34584a;
+  font-size: 23rpx;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.evidence-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+  margin-top: 24rpx;
+}
+
+.evidence-card {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 24rpx;
+  border: 3rpx solid #dde1dd;
+  border-radius: 22rpx;
+  background: #fff;
+  color: #1d3028;
+  text-align: left;
+}
+
+.evidence-card.selected {
+  border-color: #1d6a4c;
+  background: #edf6f1;
+  box-shadow: 0 0 0 4rpx rgba(29, 106, 76, 0.08);
+}
+
+.evidence-card[disabled] {
+  opacity: 0.72;
+}
+
+.evidence-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.evidence-label {
+  color: #8b6e45;
+  font-size: 22rpx;
+  font-weight: 800;
+}
+
+.evidence-time {
+  color: #818884;
+  font-size: 20rpx;
+}
+
+.evidence-title,
+.evidence-copy,
+.selection-mark {
+  display: block;
+}
+
+.evidence-title {
+  margin-top: 15rpx;
+  color: #1c392d;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.evidence-copy {
+  margin-top: 12rpx;
+  color: #3e5149;
+  font-size: 25rpx;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+.selection-mark {
+  margin-top: 18rpx;
+  color: #68766f;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+.evidence-card.selected .selection-mark {
+  color: #176344;
+}
+
+.confirm-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 28rpx;
+  text-align: center;
+}

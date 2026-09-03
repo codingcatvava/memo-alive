@@ -1,0 +1,118 @@
+<view class="page memo-page">
+  <view wx:if="{{loading}}" class="loading-card">正在加载备忘录…</view>
+
+  <view wx:elif="{{error && !memo}}" class="error-card">
+    <text>{{error}}</text>
+    <button class="secondary retry-button" bindtap="load">重试</button>
+  </view>
+
+  <block wx:else>
+    <view class="memo-heading">
+      <text class="eyebrow">{{recordedAtText}}</text>
+      <view class="heading-row">
+        <view class="page-title memo-title">{{current.title || '备忘录'}}</view>
+        <text wx:if="{{memo.pending_approval_count}}" class="badge pending" bindtap="openApproval">
+          待审批 {{memo.pending_approval_count}} 条
+        </text>
+        <text wx:else class="badge">当前版本 v{{current.version_no}}</text>
+      </view>
+      <text wx:if="{{memo.location_text}}" class="location">录制地点：{{memo.location_text}}</text>
+    </view>
+
+    <view wx:if="{{error}}" class="error-card inline-error">
+      <text>{{error}}</text>
+    </view>
+
+    <view class="card draft-card">
+      <view class="section-heading-row">
+        <view>
+          <text class="section-title">当前整理稿</text>
+          <text class="version-hint">保存会创建新版本，不会覆盖原始证据</text>
+        </view>
+        <button wx:if="{{!editing && current.id}}" class="edit-button" bindtap="beginEdit">编辑</button>
+      </view>
+
+      <view wx:if="{{editing}}" class="edit-form">
+        <label class="field">
+          标题
+          <input
+            value="{{titleDraft}}"
+            maxlength="120"
+            placeholder="请输入标题"
+            bindinput="onTitleInput"
+          />
+        </label>
+        <label class="field">
+          整理稿
+          <textarea
+            value="{{markdownDraft}}"
+            maxlength="10000"
+            placeholder="请输入整理后的内容"
+            bindinput="onMarkdownInput"
+          ></textarea>
+        </label>
+        <view class="button-row">
+          <button class="secondary" disabled="{{saving}}" bindtap="cancelEdit">取消</button>
+          <button
+            class="primary"
+            loading="{{saving}}"
+            disabled="{{saving || !titleDraft || !markdownDraft}}"
+            bindtap="saveEdit"
+          >{{saving ? '正在保存' : '保存新版本'}}</button>
+        </view>
+      </view>
+
+      <view wx:else class="draft-view">
+        <text wx:if="{{current.summary}}" class="summary" user-select="true">{{current.summary}}</text>
+        <text class="cleaned-markdown pre-wrap" user-select="true">{{current.cleaned_markdown}}</text>
+      </view>
+    </view>
+
+    <view class="card evidence-card">
+      <view class="section-heading-row">
+        <view>
+          <text class="section-title">原始证据</text>
+          <text class="version-hint">只读·不会被 AI 或编辑静默覆盖</text>
+        </view>
+        <text class="read-only-pill">只读</text>
+      </view>
+      <button
+        class="audio-button secondary"
+        loading="{{audioLoading}}"
+        disabled="{{!memo.audio_url}}"
+        bindtap="toggleAudio"
+      >{{audioPlaying ? '暂停原始录音' : '播放原始录音'}}</button>
+      <text wx:if="{{audioError}}" class="audio-error">{{audioError}}</text>
+      <view class="transcript-block">
+        <text class="block-label">原始转写</text>
+        <text class="raw-transcript pre-wrap" user-select="true">{{memo.raw_transcript || '暂无转写'}}</text>
+      </view>
+    </view>
+
+    <view class="card versions-card">
+      <view class="section-heading-row">
+        <view>
+          <text class="section-title">版本链</text>
+          <text class="version-hint">共 {{versions.length}} 个可追溯版本</text>
+        </view>
+      </view>
+      <view class="version-list">
+        <view wx:for="{{versions}}" wx:key="id" wx:for-item="version" class="version-item">
+          <view class="version-rail">
+            <view class="version-dot {{version.isCurrent ? 'current' : ''}}"></view>
+            <view wx:if="{{index < versions.length - 1}}" class="version-line"></view>
+          </view>
+          <view class="version-content">
+            <view class="version-meta">
+              <text class="version-number">v{{version.version_no}}</text>
+              <text wx:if="{{version.isCurrent}}" class="badge">当前</text>
+              <text class="version-date">{{version.createdAtText}}</text>
+            </view>
+            <text class="version-title">{{version.title}}</text>
+            <text class="version-preview pre-wrap" user-select="true">{{version.cleaned_markdown}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

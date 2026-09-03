@@ -1,0 +1,9 @@
+{
+  "desc": "Memo Alive 本地单用户小程序",
+  "rules": [
+    {
+      "action": "disallow",
+      "page": "*"
+    }
+  ]
+}

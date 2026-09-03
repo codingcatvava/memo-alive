@@ -1,0 +1,92 @@
+<view class="page settings-page">
+  <text class="eyebrow">Memo Alive 连接设置</text>
+  <view class="page-title">后端</view>
+  <view class="page-subtitle">小程序只保存后端地址，不会保存百炼 API Key。</view>
+
+  <view class="card address-card">
+    <text class="section-title">API Base URL</text>
+    <text class="current-label">当前生效地址</text>
+    <view class="saved-url" bindlongpress="copyBase">{{savedBase}}</view>
+    <label class="field">
+      修改后端地址
+      <input
+        value="{{apiBaseDraft}}"
+        type="text"
+        placeholder="http://127.0.0.1:8000"
+        bindinput="onBaseInput"
+      />
+    </label>
+    <view class="button-row address-actions">
+      <button class="secondary" disabled="{{testing}}" bindtap="saveOnly">只保存</button>
+      <button class="primary" loading="{{testing}}" disabled="{{testing}}" bindtap="saveAndTest">
+        {{testing ? '正在检查' : '保存并测试'}}
+      </button>
+    </view>
+    <button class="restore-button text-button" disabled="{{testing}}" bindtap="restoreDefault">
+      恢复开发者工具默认地址
+    </button>
+  </view>
+
+  <view wx:if="{{testError}}" class="error-card test-error">
+    <text class="error-title">连接检查失败</text>
+    <text>{{testError}}</text>
+    <text class="error-tip">确认 Docker 后端已启动，并检查开发者工具的域名校验设置。</text>
+    <text wx:if="{{testedAt}}" class="tested-at">检查时间：{{testedAt}}</text>
+  </view>
+
+  <view wx:if="{{health && runtime}}" class="card result-card">
+    <view class="result-heading">
+      <view>
+        <text class="section-title">连接结果</text>
+        <text class="tested-at">{{testedAt}}</text>
+      </view>
+      <text class="runtime-pill {{runtime.mode === 'mock' ? 'mock' : ''}}">
+        {{runtime.mode === 'mock' ? '演示模式' : '真实模式'}}
+      </text>
+    </view>
+    <view class="health-grid">
+      <view class="health-item">
+        <text>/health</text>
+        <text class="health-value {{health.status === 'ok' ? 'healthy' : 'warning'}}">{{health.status}}</text>
+      </view>
+      <view class="health-item">
+        <text>数据库</text>
+        <text class="health-value {{runtime.database === 'healthy' ? 'healthy' : 'warning'}}">{{runtime.database}}</text>
+      </view>
+      <view class="health-item">
+        <text>本地音频存储</text>
+        <text class="health-value {{runtime.local_storage === 'healthy' ? 'healthy' : 'warning'}}">{{runtime.local_storage}}</text>
+      </view>
+    </view>
+    <view wx:if="{{modelLines.length}}" class="model-list">
+      <text class="block-title">后端锁定模型</text>
+      <view wx:for="{{modelLines}}" wx:key="role" wx:for-item="item" class="model-row">
+        <text>{{item.role}}</text>
+        <text user-select="true">{{item.model}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="card guide-card">
+    <text class="section-title">开发者工具</text>
+    <view class="guide-row">
+      <text class="guide-number">1</text>
+      <text>先在电脑上启动 PostgreSQL 和 API，默认地址为 http://127.0.0.1:8000。</text>
+    </view>
+    <view class="guide-row">
+      <text class="guide-number">2</text>
+      <text>本地 HTTP 调试需在开发者工具的项目设置中勾选“不校验合法域名”。</text>
+    </view>
+    <view class="guide-row">
+      <text class="guide-number">3</text>
+      <text>点击“保存并测试”会同时请求 /health 和 /api/v1/runtime。</text>
+    </view>
+  </view>
+
+  <view class="card guide-card phone-card">
+    <text class="section-title">真机与开发者工具不同</text>
+    <text class="phone-warning">127.0.0.1 在真机上指向手机自身，不是你的电脑。</text>
+    <text class="guide-copy">真机预览需使用手机可访问的 HTTPS 后端，并在小程序后台配置 request、uploadFile 和 downloadFile 合法域名。</text>
+    <text class="guide-copy">当前后端是本地单用户验证版，没有登录和多用户隔离，不应直接暴露到公网。</text>
+  </view>
+</view>

@@ -1,0 +1,75 @@
+<view class="page history-page">
+  <view class="top-row">
+    <view>
+      <text class="eyebrow">你的原始声音和每次变化都在</text>
+      <view class="page-title">备忘录</view>
+    </view>
+  </view>
+
+  <view class="page-subtitle">
+    <text>按录制时间查看原始转写、当前整理稿和版本记录。</text>
+    <text wx:if="{{runtime && runtime.mode === 'mock'}}" class="runtime-pill mock">演示模式</text>
+  </view>
+
+  <view wx:if="{{error}}" class="error-card">
+    <text>无法连接后端：{{error}}</text>
+    <text>请确认项目后端已经启动，并检查小程序的接口地址。</text>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading-card">正在加载…</view>
+
+  <view wx:elif="{{!groups.length && !error}}" class="empty">
+    <text class="empty-title">还没有备忘录</text>
+    <text>点击下方“录制”，留下第一条记忆。</text>
+  </view>
+
+  <view wx:else class="history-groups">
+    <view wx:for="{{groups}}" wx:key="label" wx:for-item="group" class="history-group">
+      <view class="group-label">{{group.label}}</view>
+      <view class="memo-list">
+        <view wx:for="{{group.items}}" wx:key="id" wx:for-item="memo" class="memo-swipe-shell">
+          <button
+            class="delete-action"
+            data-id="{{memo.id}}"
+            disabled="{{deletingMemoId === memo.id}}"
+            loading="{{deletingMemoId === memo.id}}"
+            catchtap="deleteMemo"
+            aria-label="删除备忘录"
+          >
+            <view class="trash-icon" aria-hidden="true">
+              <view class="trash-lid"></view>
+              <view class="trash-body">
+                <view></view>
+                <view></view>
+              </view>
+            </view>
+          </button>
+          <view
+            class="memo-card card {{openMemoId === memo.id ? 'is-open' : ''}}"
+            data-id="{{memo.id}}"
+            bindtouchstart="onMemoTouchStart"
+            bindtouchmove="onMemoTouchMove"
+            bindtouchend="onMemoTouchEnd"
+            bindtouchcancel="onMemoTouchCancel"
+          >
+            <view class="memo-main" data-id="{{memo.id}}" bindtap="openMemo">
+              <text class="memo-time">{{memo.timeText}}</text>
+              <view class="memo-copy">
+                <text class="memo-title">{{memo.title || '处理中的备忘录'}}</text>
+                <text class="memo-topics">{{memo.topicText}}</text>
+              </view>
+              <button
+                wx:if="{{memo.pending_approval_count}}"
+                class="badge memo-status pending"
+                data-id="{{memo.id}}"
+                catchtap="openApproval"
+              >{{memo.statusText}}</button>
+              <text wx:else class="badge memo-status {{memo.statusClass}}">{{memo.statusText}}</text>
+              <text class="chevron">›</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

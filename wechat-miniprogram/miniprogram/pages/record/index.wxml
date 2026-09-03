@@ -1,0 +1,116 @@
+<view class="page record-page">
+  <view class="record-heading">
+    <text wx:if="{{runtime && runtime.mode === 'mock'}}" class="eyebrow">演示模式 · 音频仍会真实保存</text>
+    <view class="page-title">{{stage === 'done' ? '已整理完成' : '记下此刻'}}</view>
+    <view class="page-subtitle">原始音频和原始转写只读保留，AI 整理稿不会覆盖它们。</view>
+  </view>
+
+  <view wx:if="{{error}}" class="error-card">
+    <text>{{error}}</text>
+    <button wx:if="{{needPermissionSettings}}" class="secondary permission-button" bindtap="openPermissionSettings">打开录音权限</button>
+  </view>
+
+  <view wx:if="{{stage === 'idle'}}" class="recorder-card card">
+    <button class="record-button" bindtap="startRecording"><view class="record-dot"></view></button>
+    <text class="recorder-title">点击开始录音</text>
+    <text class="muted">录完后可以先试听，不会自动提交。</text>
+    <button class="file-link" bindtap="chooseAudio">或选择已有音频</button>
+    <label class="field location-field">
+      地点（可选）
+      <input value="{{location}}" bindinput="setLocation" placeholder="例如：家里" />
+    </label>
+  </view>
+
+  <view wx:if="{{stage === 'recording'}}" class="recorder-card card is-recording">
+    <view class="waveform">
+      <view wx:for="{{waveBars}}" wx:key="id" class="wave-bar {{item.className}}"></view>
+    </view>
+    <text class="record-duration">{{durationText}}</text>
+    <button class="record-button stop" bindtap="stopRecording"><view class="stop-square"></view></button>
+    <button class="text-button" bindtap="cancelRecording">取消</button>
+  </view>
+
+  <view wx:if="{{stage === 'ready'}}" class="card ready-card">
+    <text class="section-title">录音已就绪</text>
+    <text class="file-name">{{fileName}}</text>
+    <text class="muted">时长 {{durationText}}</text>
+    <button class="preview-button secondary" bindtap="playFile">试听录音</button>
+    <label class="field">
+      地点（可选）
+      <input value="{{location}}" bindinput="setLocation" placeholder="例如：家里" />
+    </label>
+    <view class="button-row">
+      <button class="secondary" bindtap="reset">重新选择</button>
+      <button class="primary" bindtap="uploadAndProcess">上传并整理</button>
+    </view>
+  </view>
+
+  <view wx:if="{{stage === 'uploading'}}" class="processing-card card">
+    <view class="spinner"></view>
+    <text class="section-title">正在保存原始音频</text>
+    <view class="progress-track"><view class="progress-value" style="width: {{uploadProgress}}%;"></view></view>
+    <text class="muted">{{uploadProgress}}%</text>
+  </view>
+
+  <view wx:if="{{stage === 'mock_input'}}" class="mock-card card">
+    <view><text class="runtime-pill mock">Demo</text></view>
+    <text class="section-title">原始音频已保存</text>
+    <text class="mock-copy">当前没有百炼 Key。请明确选择示例转写，或手动输入刚才实际说的内容。</text>
+    <button class="example-button secondary" data-source="example" bindtap="submitMock">
+      使用内置示例转写
+    </button>
+    <text class="example-text">“我日常出门要带钥匙、门禁卡和充电宝”</text>
+    <label class="field">
+      手动输入真实转写
+      <textarea value="{{manualTranscript}}" bindinput="setManualTranscript" placeholder="请输入你实际说的内容…" />
+    </label>
+    <button class="primary full-button" disabled="{{!manualReady}}" data-source="manual" bindtap="submitMock">使用手动转写继续</button>
+  </view>
+
+  <view wx:if="{{stage === 'processing'}}" class="processing-card card">
+    <view class="spinner"></view>
+    <text class="section-title">正在处理记忆</text>
+    <view class="stage-list">
+      <text>✓ 原始音频与转写持久化</text>
+      <text>• 文字整理与内容分析</text>
+      <text>• 校验、检索和关系判断</text>
+    </view>
+  </view>
+
+  <view wx:if="{{stage === 'failed'}}" class="card failure-actions">
+    <text class="section-title">处理未完成</text>
+    <view class="button-row">
+      <button class="secondary" bindtap="reset">重新开始</button>
+      <button wx:if="{{capture}}" class="primary" bindtap="retryProcess">重试处理</button>
+    </view>
+  </view>
+
+  <view wx:if="{{stage === 'done' && result && currentVersion}}" class="result-card card">
+    <view class="result-head">
+      <text class="success-mark">✓</text>
+      <view class="result-copy">
+        <text class="result-title">{{currentVersion.title}}</text>
+        <text class="result-summary">{{currentVersion.summary}}</text>
+      </view>
+    </view>
+    <text class="badge {{result.pending_approval_count ? 'pending' : ''}}">
+      {{result.pending_approval_count ? '待审批 ' + result.pending_approval_count + ' 条' : '已完成'}}
+    </text>
+    <view class="divider"></view>
+    <text class="section-title">当前整理稿</text>
+    <text class="cleaned pre-wrap" selectable>{{currentVersion.cleaned_markdown}}</text>
+    <view class="divider"></view>
+    <view class="evidence-title-row">
+      <text class="section-title">原始证据</text>
+      <text class="badge">只读</text>
+    </view>
+    <button class="secondary preview-button" bindtap="playResultAudio">播放原始音频</button>
+    <text class="raw-label">原始转写</text>
+    <text class="raw-transcript pre-wrap" selectable>{{result.raw_transcript}}</text>
+    <view class="button-row">
+      <button class="secondary" bindtap="reset">再记一条</button>
+      <button class="primary" bindtap="viewMemo">查看详情</button>
+    </view>
+    <button wx:if="{{result.pending_approval_count}}" class="approval-button" bindtap="openApprovals">处理待审批关系</button>
+  </view>
+</view>

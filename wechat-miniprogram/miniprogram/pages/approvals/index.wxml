@@ -1,0 +1,123 @@
+<view class="page approvals-page">
+  <view class="approval-heading-row">
+    <button
+      wx:if="{{viewMode === 'cards'}}"
+      class="back-icon-button"
+      bindtap="backToMessages"
+      aria-label="返回上一页"
+    ><text class="back-glyph" aria-hidden="true">↩</text></button>
+    <view class="approval-heading-copy">
+      <text class="eyebrow">所有变化都由你确认</text>
+      <view class="page-title">待审批</view>
+    </view>
+  </view>
+  <view class="page-subtitle">
+    AI 只提供关系建议和融合草稿；不会自动覆盖、删除或替你审批。
+  </view>
+
+  <view wx:if="{{error}}" class="error-card">
+    <text>{{error}}</text>
+    <button class="secondary retry-button" bindtap="retry">重试</button>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading-card">正在加载待审批内容…</view>
+
+  <block wx:elif="{{viewMode === 'messages' && !error}}">
+    <view wx:if="{{!messages.length && !error}}" class="empty">
+      <text class="empty-title">没有待审批消息</text>
+      <text>当新旧记忆需要你确认时，会出现在这里。</text>
+    </view>
+    <view wx:else class="message-list">
+      <view
+        wx:for="{{messages}}"
+        wx:key="memo_id"
+        wx:for-item="message"
+        class="message-card card"
+        data-id="{{message.memo_id}}"
+        bindtap="openMessage"
+      >
+        <view class="message-copy">
+          <text class="message-title">{{message.title || '未命名备忘录'}}</text>
+          <text class="message-time">{{message.recordedAtText}}</text>
+        </view>
+        <view class="message-count">{{message.pending_approval_count}}</view>
+        <text class="message-chevron">›</text>
+      </view>
+    </view>
+  </block>
+
+  <block wx:elif="{{!error}}">
+    <view wx:if="{{!currentCard && !error}}" class="empty">
+      <text class="empty-title">该备忘录已无待审批项</text>
+      <text>点击左上角图标返回待审批消息列表。</text>
+    </view>
+
+    <view wx:else class="card-shell">
+      <view class="card-navigation">
+        <button
+          class="nav-button"
+          disabled="{{currentIndex === 0 || busy}}"
+          bindtap="previousCard"
+        >←</button>
+        <text>{{currentIndex + 1}} / {{cards.length}}</text>
+        <button
+          class="nav-button"
+          disabled="{{currentIndex >= cards.length - 1 || busy}}"
+          bindtap="nextCard"
+        >→</button>
+      </view>
+
+      <view class="approval-card card">
+        <view class="approval-meta">
+          <text class="relation-chip">{{currentCard.relationText}}</text>
+          <text class="topic-chip">主题：{{currentCard.topic_name}}</text>
+        </view>
+        <text class="route-title">{{currentCard.routeText}}</text>
+        <view class="rationale pre-wrap">{{currentCard.rationale}}</view>
+
+        <view class="explicit-note">
+          请亲自点选“新内容”或“旧内容”。未选择前不会提交。
+        </view>
+
+        <view class="evidence-list">
+          <button
+            class="evidence-card {{selection === 'new' ? 'selected' : ''}}"
+            data-choice="new"
+            disabled="{{busy}}"
+            bindtap="selectEvidence"
+          >
+            <view class="evidence-head">
+              <text class="evidence-label">{{currentCard.newLabel}}</text>
+              <text class="evidence-time">{{currentCard.newRecordedAtText}}</text>
+            </view>
+            <text class="evidence-title">{{currentCard.new_title}}</text>
+            <text class="evidence-copy pre-wrap">{{currentCard.new_evidence}}</text>
+            <text class="selection-mark">{{selection === 'new' ? '✓ 已选新内容' : '点击选择新内容'}}</text>
+          </button>
+
+          <button
+            class="evidence-card {{selection === 'old' ? 'selected' : ''}}"
+            data-choice="old"
+            disabled="{{busy}}"
+            bindtap="selectEvidence"
+          >
+            <view class="evidence-head">
+              <text class="evidence-label">{{currentCard.oldLabel}}</text>
+              <text class="evidence-time">{{currentCard.oldRecordedAtText}}</text>
+            </view>
+            <text class="evidence-title">{{currentCard.old_title}}</text>
+            <text class="evidence-copy pre-wrap">{{currentCard.old_evidence}}</text>
+            <text class="selection-mark">{{selection === 'old' ? '✓ 已选旧内容' : '点击选择旧内容'}}</text>
+          </button>
+        </view>
+
+        <button
+          class="primary confirm-button"
+          disabled="{{!selection || busy}}"
+          loading="{{busy}}"
+          bindtap="confirmSelection"
+        >{{busy ? '正在提交…' : currentCard.confirmText}}</button>
+      </view>
+    </view>
+  </block>
+</view>
