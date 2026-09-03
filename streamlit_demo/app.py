@@ -11,7 +11,7 @@ from uuid import uuid4
 
 import streamlit as st
 
-from streamlit_demo import db
+import db
 from streamlit_demo.ai import (
     AIError,
     QWEN_ASR_MODEL,
