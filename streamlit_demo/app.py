@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import html
 import os
+import sys
 import tempfile
 from datetime import datetime
 from pathlib import Path
@@ -11,7 +12,11 @@ from uuid import uuid4
 
 import streamlit as st
 
-import db
+REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from streamlit_demo import db
 from streamlit_demo.ai import (
     AIError,
     QWEN_ASR_MODEL,
